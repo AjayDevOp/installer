@@ -12,6 +12,7 @@ import (
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/tokens"
 	"github.com/gophercloud/gophercloud/openstack/imageservice/v2/images"
 	"github.com/gophercloud/utils/openstack/clientconfig"
+	"github.com/openshift/installer/pkg/asset/ignition"
 	"github.com/openshift/installer/pkg/rhcos"
 	"github.com/openshift/installer/pkg/tfvars/internal/cache"
 	"github.com/pkg/errors"
@@ -112,7 +113,7 @@ func TFVars(masterConfig *v1alpha1.OpenstackProviderSpec, cloud string, external
 	}
 
 	bootstrapConfigURL := fmt.Sprintf("%s%s", glancePublicURL, configLocation)
-	userCAIgnition, err := generateIgnitionShim(userCA, infraID, bootstrapConfigURL, tokenID)
+	userCAIgnition, err := ignition.GenerateIgnitionShim(userCA, infraID, bootstrapConfigURL, tokenID)
 	if err != nil {
 		return nil, err
 	}
